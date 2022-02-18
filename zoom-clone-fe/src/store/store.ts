@@ -1,10 +1,10 @@
 import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit';
 
-import { hostReducer } from '@app/store/slices/host-slice';
+import { connectionReducer } from '@app/store/slices/connection-slice';
 
 export const store = configureStore({
   reducer: {
-    host: hostReducer,
+    connection: connectionReducer,
   },
 });
 

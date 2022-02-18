@@ -4,7 +4,7 @@ import './IntroductionPage.css';
 
 import logo from '@app/resources/images/logo.png';
 import { useAppDispatch } from '@app/store/hooks';
-import { setIsRoomHost } from '@app/store/slices/host-slice';
+import { setIsRoomHost } from '@app/store/slices/connection-slice';
 import ConnectingButtons from '@app/ui/introduction-page/components/ConnectingButtons';
 
 export default function IntroductionPage(): JSX.Element {
