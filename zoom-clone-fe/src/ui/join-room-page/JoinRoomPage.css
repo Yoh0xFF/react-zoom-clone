@@ -18,16 +18,6 @@
   align-items: flex-start;
 }
 
-.error_message_container {
-  display: flex;
-  height: 50px;
-  margin-left: 35px;
-}
-
-.error_message_paragraph {
-  color: red;
-}
-
 .loading_overlay_container {
   position: absolute;
   display: flex;
