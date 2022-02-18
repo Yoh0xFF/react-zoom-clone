@@ -6,7 +6,9 @@ import './JoinRoomPage.css';
 import { useAppDispatch, useAppSelector } from '@app/store/hooks';
 import {
   setConnectOnlyWithAudio,
+  setIdentity,
   setIsRoomHost,
+  setRoomId,
 } from '@app/store/slices/connection-slice';
 import {
   selectConnectOnlyWithAudio,
@@ -34,14 +36,25 @@ export default function JoinRoomPage(props: JoinRoomPageProps): JSX.Element {
     dispatch(setConnectOnlyWithAudio(value));
   };
 
+  const setRoomIdHandler = (value: string) => {
+    dispatch(setRoomId(value));
+  };
+
+  const setIdentityHandler = (value: string) => {
+    dispatch(setIdentity(value));
+  };
+
   return (
     <div className='join_room_page_container'>
       <div className='join_room_page_panel'>
         <JoinRoomTitle isRoomHost={isRoomHost} />
+
         <JoinRoomContent
           isRoomHost={isRoomHost}
           connectOnlyWithAudio={connectOnlyWithAudio}
           setConnectOnlyWithAudio={setConnectOnlyWithAudioHandler}
+          setRoomId={setRoomIdHandler}
+          setIdentity={setIdentityHandler}
         />
       </div>
     </div>

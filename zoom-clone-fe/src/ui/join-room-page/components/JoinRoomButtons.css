@@ -1,0 +1,5 @@
+.join_room_buttons_container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}

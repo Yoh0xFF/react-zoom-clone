@@ -10,6 +10,7 @@ import path from 'path';
 
 import { AppError } from './models/error';
 import indexRouter from './routes';
+import roomRouter from './routes/room-routes';
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(json());
 app.use(urlencoded({ extended: false }));
 
 app.use('/', indexRouter);
+app.use('/api', roomRouter);
 
 // Handle unknown route
 app.use((req: Request, res: Response, next: NextFunction) => {
