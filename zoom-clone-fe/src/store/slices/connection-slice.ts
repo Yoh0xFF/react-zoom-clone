@@ -5,11 +5,13 @@ export interface ConnectionState {
   connectOnlyWithAudio: boolean;
   roomId?: string;
   identity?: string;
+  showOverlay: boolean;
 }
 
 const initialState: ConnectionState = {
   isRoomHost: false,
   connectOnlyWithAudio: false,
+  showOverlay: false,
 };
 
 export const connectionSlice = createSlice({
@@ -28,6 +30,9 @@ export const connectionSlice = createSlice({
     setIdentity: (state, action: PayloadAction<string>) => {
       state.identity = action.payload;
     },
+    setShowOverlay: (state, action: PayloadAction<boolean>) => {
+      state.showOverlay = action.payload;
+    },
   },
 });
 
@@ -36,6 +41,7 @@ export const {
   setConnectOnlyWithAudio,
   setRoomId,
   setIdentity,
+  setShowOverlay,
 } = connectionSlice.actions;
 
 export const connectionReducer = connectionSlice.reducer;

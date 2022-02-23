@@ -15,3 +15,7 @@ export const selectRoomId = (state: RootState) => {
 export const selectIdentity = (state: RootState) => {
   return state.connection.identity;
 };
+
+export const selectShowOverlay = (state: RootState) => {
+  return state.connection.showOverlay;
+};
