@@ -1,0 +1,8 @@
+.participants_container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-content: flex-start;
+  height: 50%;
+}

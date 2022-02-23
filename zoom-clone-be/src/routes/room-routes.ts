@@ -5,7 +5,7 @@ import { User } from '../models/user';
 const router = Router();
 
 let connectedUsers: Array<User> = [];
-let rooms: Array<Room> = [];
+let rooms: Array<Room> = [{ id: '12345', connectedUsers: [] }];
 
 router.get(
   '/room-exists/:roomId',

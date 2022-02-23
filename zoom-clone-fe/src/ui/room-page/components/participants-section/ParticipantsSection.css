@@ -1,0 +1,7 @@
+.participants_section_container {
+  height: 100%;
+  width: 20%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
