@@ -26,11 +26,15 @@ app.use(errorHandler());
 const server = http.createServer(app);
 
 // Create web socket server
-const io = new Server({
+const io = new Server(server, {
   cors: {
     origin: '*',
     methods: ['GET', 'POST'],
   },
+});
+
+io.on('connection', (socket) => {
+  console.log(`User connected ${socket.id}`);
 });
 
 // Start express server.
