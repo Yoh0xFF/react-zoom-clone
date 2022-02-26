@@ -18,7 +18,7 @@ import VideoSection from '@app/ui/room-page/components/video-section/VideoSectio
 
 export default function RoomPage(): JSX.Element {
   const isRoomHost = useAppSelector(selectIsRoomHost);
-  const roomId = useAppSelector(selectRoomId) || '12345';
+  const roomId = useAppSelector(selectRoomId) || '';
   const identity = useAppSelector(selectIdentity) || 'Ioram Gordadze';
   const showOverlay = useAppSelector(selectShowOverlay);
 

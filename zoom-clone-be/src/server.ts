@@ -6,6 +6,8 @@ import http from 'http';
 import { Server } from 'socket.io';
 
 import app from './app';
+import { ClientToServerEvent, ServerToClientEvent } from './models/wss';
+import { createNewRoomHandler } from './handlers/room-handler';
 
 // Configure environment
 const appEnvLabel = process.env.APP_ENV || 'development';
@@ -26,7 +28,7 @@ app.use(errorHandler());
 const server = http.createServer(app);
 
 // Create web socket server
-const io = new Server(server, {
+const io = new Server<ClientToServerEvent, ServerToClientEvent>(server, {
   cors: {
     origin: '*',
     methods: ['GET', 'POST'],
@@ -35,6 +37,10 @@ const io = new Server(server, {
 
 io.on('connection', (socket) => {
   console.log(`User connected ${socket.id}`);
+
+  socket.on('createNewRoom', (data) => {
+    createNewRoomHandler(socket, data);
+  });
 });
 
 // Start express server.

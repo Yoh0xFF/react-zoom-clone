@@ -1,3 +1,4 @@
+import { wss } from '@app/api/wss';
 import { setShowOverlay } from '@app/store/slices/connection-slice';
 import { store } from '@app/store/store';
 
@@ -26,7 +27,11 @@ export async function getLocalPreviewAndInitRoomConnection(
 
     showLocalVideoPreview(stream);
 
-    // isRoomHost ? wss.createNewRoom(identity) : wss.joinRoom(roomId, identity);
+    if (isRoomHost) {
+      wss.createNewRoom(identity);
+    } else if (roomId) {
+      wss.joinRoom(identity, roomId);
+    }
   } catch (error) {
     console.log(
       'Error occurred when trying to get an access to local stream',
