@@ -7,7 +7,7 @@ import { Server } from 'socket.io';
 
 import app from './app';
 import { ClientToServerEvent, ServerToClientEvent } from './models/wss';
-import { createNewRoomHandler } from './handlers/room-handler';
+import { createNewRoomHandler, joinRoomHandler } from './handlers/room-handler';
 
 // Configure environment
 const appEnvLabel = process.env.APP_ENV || 'development';
@@ -40,6 +40,10 @@ io.on('connection', (socket) => {
 
   socket.on('createNewRoom', (data) => {
     createNewRoomHandler(socket, data);
+  });
+
+  socket.on('joinRoom', (data) => {
+    joinRoomHandler(io, socket, data);
   });
 });
 
