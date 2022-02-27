@@ -1,16 +1,8 @@
 import { Socket, io } from 'socket.io-client';
 
-import { setRoomId } from '@app/store/slices/connection-slice';
+import { setParticipants, setRoomId } from '@app/store/slices/connection-slice';
 import { store } from '@app/store/store';
-
-interface ServerToClientEvent {
-  newRoomCreated: (data: { roomId: string }) => void;
-}
-
-interface ClientToServerEvent {
-  createNewRoom: (data: { identity: string }) => void;
-  joinRoom: (data: { identity: string; roomId: string }) => void;
-}
+import { ClientToServerEvent, ServerToClientEvent } from '@app/types/wss';
 
 class WebSocket {
   private _serverUrl = 'http://localhost:8080';
@@ -31,6 +23,11 @@ class WebSocket {
     this._socket.on('newRoomCreated', (data) => {
       const { roomId } = data;
       store.dispatch(setRoomId(roomId));
+    });
+
+    this._socket.on('roomUpdated', (data) => {
+      const { connectedUsers } = data;
+      store.dispatch(setParticipants(connectedUsers));
     });
   }
 

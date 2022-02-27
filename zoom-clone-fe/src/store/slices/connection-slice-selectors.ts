@@ -19,3 +19,7 @@ export const selectIdentity = (state: RootState) => {
 export const selectShowOverlay = (state: RootState) => {
   return state.connection.showOverlay;
 };
+
+export const selectParticipants = (state: RootState) => {
+  return state.connection.participants;
+};

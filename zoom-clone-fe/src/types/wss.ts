@@ -1,4 +1,4 @@
-import { User } from './user';
+import { User } from '@app/types/user';
 
 export interface ServerToClientEvent {
   newRoomCreated: (data: { roomId: string }) => void;

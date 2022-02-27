@@ -34,4 +34,5 @@ export function createNewRoomHandler(
   socket.emit('newRoomCreated', { roomId });
 
   // emit new user join event to the connected users in the room
+  socket.emit('roomUpdated', { connectedUsers: newRoom.connectedUsers });
 }
