@@ -45,3 +45,8 @@ export async function getLocalPreviewAndInitRoomConnection(
 function showLocalVideoPreview(stream: MediaStream) {
   // Show local video preview
 }
+
+export function prepareNewPeerConnection(
+  newUserSocketId: string,
+  isInitiator: boolean
+) {}

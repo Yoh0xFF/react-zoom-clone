@@ -1,5 +1,6 @@
 import { Socket, io } from 'socket.io-client';
 
+import { prepareNewPeerConnection } from '@app/api/web-rtc-handler';
 import { setParticipants, setRoomId } from '@app/store/slices/connection-slice';
 import { store } from '@app/store/store';
 import { ClientToServerEvent, ServerToClientEvent } from '@app/types/wss';
@@ -28,6 +29,12 @@ class WebSocket {
     this._socket.on('roomUpdated', (data) => {
       const { connectedUsers } = data;
       store.dispatch(setParticipants(connectedUsers));
+    });
+
+    this._socket.on('connPrepare', (data) => {
+      const { newUserSocketId } = data;
+
+      prepareNewPeerConnection(newUserSocketId, false);
     });
   }
 

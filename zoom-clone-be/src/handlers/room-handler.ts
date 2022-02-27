@@ -62,6 +62,15 @@ export function joinRoomHandler(
 
   socket.join(roomId);
 
+  // Emit to the all users in the room to prepare peer connection
+  room.connectedUsers.forEach((x) => {
+    if (x.socketId === socket.id) {
+      return;
+    }
+
+    server.to(x.socketId).emit('connPrepare', { newUserSocketId: socket.id });
+  });
+
   // emit new user join event to the connected users in the room
   server
     .to(roomId)

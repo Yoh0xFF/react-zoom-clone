@@ -3,6 +3,7 @@ import { User } from './user';
 export interface ServerToClientEvent {
   newRoomCreated: (data: { roomId: string }) => void;
   roomUpdated: (data: { connectedUsers: Array<User> }) => void;
+  connPrepare: (data: { newUserSocketId: string }) => void;
 }
 
 export interface ClientToServerEvent {
