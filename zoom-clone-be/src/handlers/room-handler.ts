@@ -67,3 +67,29 @@ export function joinRoomHandler(
     .to(roomId)
     .emit('roomUpdated', { connectedUsers: room.connectedUsers });
 }
+
+export function disconnectHandler(
+  server: Server<ClientToServerEvent, ServerToClientEvent>,
+  socket: Socket<ClientToServerEvent, ServerToClientEvent>
+) {
+  // Find if the user is connected
+  const user = connectedUsers.find((x) => x.socketId === socket.id);
+
+  if (user) {
+    // Remove user from room in server
+    const room = rooms.find((x) => x.id == user.roomId);
+    room.connectedUsers = room.connectedUsers.filter((x) => x.id !== user.id);
+
+    socket.leave(room.id);
+    connectedUsers.splice(connectedUsers.indexOf(user), 1);
+
+    // emit user disconnected event to the connected users in the room
+    if (room.connectedUsers.length > 0) {
+      server
+        .to(room.id)
+        .emit('roomUpdated', { connectedUsers: room.connectedUsers });
+    } else {
+      rooms.splice(rooms.indexOf(room), 1);
+    }
+  }
+}
