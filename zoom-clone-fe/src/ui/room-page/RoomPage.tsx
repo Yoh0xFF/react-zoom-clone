@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import './RoomPage.css';
 
-import { getLocalPreviewAndInitRoomConnection } from '@app/api/web-rtc-handler';
+import { rtc } from '@app/api/web-rtc-handler';
 import { useAppSelector } from '@app/store/hooks';
 import {
   selectIdentity,
@@ -23,8 +23,8 @@ export default function RoomPage(): JSX.Element {
   const showOverlay = useAppSelector(selectShowOverlay);
 
   useEffect(() => {
-    getLocalPreviewAndInitRoomConnection(isRoomHost, identity, roomId);
-  }, []);
+    rtc.getLocalPreviewAndInitRoomConnection(isRoomHost, identity, roomId);
+  }, [isRoomHost, identity, roomId]);
 
   return (
     <div className='room_container'>

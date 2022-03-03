@@ -1,11 +1,11 @@
 import { Socket, io } from 'socket.io-client';
 
-import { prepareNewPeerConnection } from '@app/api/web-rtc-handler';
+import { rtc } from '@app/api/web-rtc-handler';
 import { setParticipants, setRoomId } from '@app/store/slices/connection-slice';
 import { store } from '@app/store/store';
 import { ClientToServerEvent, ServerToClientEvent } from '@app/types/wss';
 
-class WebSocket {
+class WebSocketManager {
   private _serverUrl = 'http://localhost:8080';
   private _socket!: Socket<ServerToClientEvent, ClientToServerEvent>;
 
@@ -34,7 +34,7 @@ class WebSocket {
     this._socket.on('connPrepare', (data) => {
       const { newUserSocketId } = data;
 
-      prepareNewPeerConnection(newUserSocketId, false);
+      rtc.prepareNewPeerConnection(newUserSocketId, false);
     });
   }
 
@@ -47,4 +47,4 @@ class WebSocket {
   }
 }
 
-export const wss = new WebSocket();
+export const wss = new WebSocketManager();
