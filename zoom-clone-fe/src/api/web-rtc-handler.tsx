@@ -1,52 +1,83 @@
+import SimplePeer from 'simple-peer';
+
 import { wss } from '@app/api/wss';
 import { setShowOverlay } from '@app/store/slices/connection-slice';
 import { store } from '@app/store/store';
 
-const defaultConstraints: MediaStreamConstraints = {
-  audio: true,
-  video: true,
-};
+class WebRtcManager {
+  private _defaultConstraints: MediaStreamConstraints = {
+    audio: true,
+    video: true,
+  };
 
-let localStream: MediaStream;
+  private _localStream!: MediaStream;
+  private _peers = new Map<string, SimplePeer.Instance>();
+  private _streams = new Array<MediaStream>();
 
-export async function getLocalPreviewAndInitRoomConnection(
-  isRoomHost: boolean,
-  identity: string,
-  roomId?: string
-) {
-  try {
-    store.dispatch(setShowOverlay(true));
+  async getLocalPreviewAndInitRoomConnection(
+    isRoomHost: boolean,
+    identity: string,
+    roomId?: string
+  ) {
+    try {
+      store.dispatch(setShowOverlay(true));
 
-    const stream = await navigator.mediaDevices.getUserMedia(
-      defaultConstraints
-    );
+      const stream = await navigator.mediaDevices.getUserMedia(
+        this._defaultConstraints
+      );
 
-    console.log('Successfully received local stream');
+      console.log('Successfully received local stream');
 
-    localStream = stream;
+      this._localStream = stream;
 
-    showLocalVideoPreview(stream);
+      this._showLocalVideoPreview(stream);
 
-    if (isRoomHost) {
-      wss.createNewRoom(identity);
-    } else if (roomId) {
-      wss.joinRoom(identity, roomId);
+      if (isRoomHost) {
+        wss.createNewRoom(identity);
+      } else if (roomId) {
+        wss.joinRoom(identity, roomId);
+      }
+    } catch (error) {
+      console.log(
+        'Error occurred when trying to get an access to local stream',
+        error
+      );
+    } finally {
+      store.dispatch(setShowOverlay(false));
     }
-  } catch (error) {
-    console.log(
-      'Error occurred when trying to get an access to local stream',
-      error
-    );
-  } finally {
-    store.dispatch(setShowOverlay(false));
+  }
+
+  private _showLocalVideoPreview(stream: MediaStream) {
+    // Show local video preview
+  }
+
+  prepareNewPeerConnection(newUserSocketId: string, isInitiator: boolean) {
+    const peer = new SimplePeer({
+      initiator: isInitiator,
+      config: {
+        iceServers: [
+          {
+            urls: 'stun:stun.l.google.com:19302',
+          },
+        ],
+      },
+      stream: this._localStream,
+    });
+
+    this._peers.set(newUserSocketId, peer);
+
+    this._peers.get(newUserSocketId)?.on('signal', (data) => {});
+
+    this._peers.get(newUserSocketId)?.on('stream', (stream) => {
+      console.log('new stream started');
+      this._addStream(stream, newUserSocketId);
+      this._streams.push(stream);
+    });
+  }
+
+  private _addStream(stream: MediaStream, newUserSocketId: string) {
+    // Display incoming stream
   }
 }
 
-function showLocalVideoPreview(stream: MediaStream) {
-  // Show local video preview
-}
-
-export function prepareNewPeerConnection(
-  newUserSocketId: string,
-  isInitiator: boolean
-) {}
+export const rtc = new WebRtcManager();
