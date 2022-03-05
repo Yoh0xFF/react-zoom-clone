@@ -78,6 +78,17 @@ export function joinRoomHandler(
     .emit('roomUpdated', { connectedUsers: room.connectedUsers });
 }
 
+export function initConnectionHandler(
+  server: Server<ClientToServerEvent, ServerToClientEvent>,
+  socket: Socket<ClientToServerEvent, ServerToClientEvent>,
+  data: { connUserSocketId: string }
+) {
+  const { connUserSocketId } = data;
+
+  // Information from clients which are in room and prepared for incoming connection
+  server.to(connUserSocketId).emit('connInit', { connUserSocketId: socket.id });
+}
+
 export function signalingHandler(
   server: Server<ClientToServerEvent, ServerToClientEvent>,
   socket: Socket<ClientToServerEvent, ServerToClientEvent>,

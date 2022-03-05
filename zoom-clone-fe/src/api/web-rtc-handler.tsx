@@ -78,6 +78,7 @@ class WebRtcManager {
   }
 
   handleSignalingData(signal: SignalData, connUserSocketId: string) {
+    // Add signaling data to peer connection
     this._peers.get(connUserSocketId)?.signal(signal);
   }
 

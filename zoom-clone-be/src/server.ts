@@ -10,6 +10,7 @@ import { ClientToServerEvent, ServerToClientEvent } from './models/wss';
 import {
   createNewRoomHandler,
   disconnectHandler,
+  initConnectionHandler,
   joinRoomHandler,
   signalingHandler,
 } from './handlers/room-handler';
@@ -49,6 +50,10 @@ io.on('connection', (socket) => {
 
   socket.on('joinRoom', (data) => {
     joinRoomHandler(io, socket, data);
+  });
+
+  socket.on('connInit', (data) => {
+    initConnectionHandler(io, socket, data);
   });
 
   socket.on('connSignal', (data) => {

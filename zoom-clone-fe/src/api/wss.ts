@@ -36,6 +36,15 @@ class WebSocketManager {
       const { connUserSocketId } = data;
 
       rtc.prepareNewPeerConnection(connUserSocketId, false);
+
+      // Inform the user which just join the room, that we have prepared for incoming connection
+      this._socket.emit('connInit', { connUserSocketId });
+    });
+
+    this._socket.on('connInit', (data) => {
+      const { connUserSocketId } = data;
+
+      rtc.prepareNewPeerConnection(connUserSocketId, true);
     });
 
     this._socket.on('connSignal', (data) => {
