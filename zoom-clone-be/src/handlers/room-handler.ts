@@ -4,6 +4,7 @@ import { connectedUsers, rooms } from '../dummy-data';
 import { Room } from '../models/room';
 import { Server, Socket } from 'socket.io';
 import { ClientToServerEvent, ServerToClientEvent } from '../models/wss';
+import { SignalData } from 'simple-peer';
 
 export function createNewRoomHandler(
   socket: Socket<ClientToServerEvent, ServerToClientEvent>,
@@ -68,13 +69,25 @@ export function joinRoomHandler(
       return;
     }
 
-    server.to(x.socketId).emit('connPrepare', { newUserSocketId: socket.id });
+    server.to(x.socketId).emit('connPrepare', { connUserSocketId: socket.id });
   });
 
   // emit new user join event to the connected users in the room
   server
     .to(roomId)
     .emit('roomUpdated', { connectedUsers: room.connectedUsers });
+}
+
+export function signalingHandler(
+  server: Server<ClientToServerEvent, ServerToClientEvent>,
+  socket: Socket<ClientToServerEvent, ServerToClientEvent>,
+  data: { signal: SignalData; connUserSocketId: string }
+) {
+  const { signal, connUserSocketId } = data;
+
+  server
+    .to(connUserSocketId)
+    .emit('connSignal', { signal: signal, connUserSocketId: socket.id });
 }
 
 export function disconnectHandler(

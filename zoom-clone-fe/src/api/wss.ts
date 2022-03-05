@@ -1,3 +1,4 @@
+import { SignalData } from 'simple-peer';
 import { Socket, io } from 'socket.io-client';
 
 import { rtc } from '@app/api/web-rtc-handler';
@@ -32,9 +33,15 @@ class WebSocketManager {
     });
 
     this._socket.on('connPrepare', (data) => {
-      const { newUserSocketId } = data;
+      const { connUserSocketId } = data;
 
-      rtc.prepareNewPeerConnection(newUserSocketId, false);
+      rtc.prepareNewPeerConnection(connUserSocketId, false);
+    });
+
+    this._socket.on('connSignal', (data) => {
+      const { signal, connUserSocketId } = data;
+
+      rtc.handleSignalingData(signal, connUserSocketId);
     });
   }
 
@@ -44,6 +51,10 @@ class WebSocketManager {
 
   joinRoom(identity: string, roomId: string) {
     this._socket.emit('joinRoom', { identity, roomId });
+  }
+
+  signalPeerData(signal: SignalData, connUserSocketId: string) {
+    this._socket.emit('connSignal', { signal, connUserSocketId });
   }
 }
 

@@ -11,6 +11,7 @@ import {
   createNewRoomHandler,
   disconnectHandler,
   joinRoomHandler,
+  signalingHandler,
 } from './handlers/room-handler';
 
 // Configure environment
@@ -48,6 +49,10 @@ io.on('connection', (socket) => {
 
   socket.on('joinRoom', (data) => {
     joinRoomHandler(io, socket, data);
+  });
+
+  socket.on('connSignal', (data) => {
+    signalingHandler(io, socket, data);
   });
 
   socket.on('disconnect', () => {

@@ -1,4 +1,4 @@
-import SimplePeer from 'simple-peer';
+import SimplePeer, { SignalData } from 'simple-peer';
 
 import { wss } from '@app/api/wss';
 import { setShowOverlay } from '@app/store/slices/connection-slice';
@@ -51,7 +51,7 @@ class WebRtcManager {
     // Show local video preview
   }
 
-  prepareNewPeerConnection(newUserSocketId: string, isInitiator: boolean) {
+  prepareNewPeerConnection(connUserSocketId: string, isInitiator: boolean) {
     const peer = new SimplePeer({
       initiator: isInitiator,
       config: {
@@ -64,18 +64,24 @@ class WebRtcManager {
       stream: this._localStream,
     });
 
-    this._peers.set(newUserSocketId, peer);
+    this._peers.set(connUserSocketId, peer);
 
-    this._peers.get(newUserSocketId)?.on('signal', (data) => {});
+    this._peers.get(connUserSocketId)?.on('signal', (data) => {
+      wss.signalPeerData(data, connUserSocketId);
+    });
 
-    this._peers.get(newUserSocketId)?.on('stream', (stream) => {
+    this._peers.get(connUserSocketId)?.on('stream', (stream) => {
       console.log('new stream started');
-      this._addStream(stream, newUserSocketId);
+      this._addStream(stream, connUserSocketId);
       this._streams.push(stream);
     });
   }
 
-  private _addStream(stream: MediaStream, newUserSocketId: string) {
+  handleSignalingData(signal: SignalData, connUserSocketId: string) {
+    this._peers.get(connUserSocketId)?.signal(signal);
+  }
+
+  private _addStream(stream: MediaStream, connUserSocketId: string) {
     // Display incoming stream
   }
 }
