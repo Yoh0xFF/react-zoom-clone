@@ -47,10 +47,6 @@ class WebRtcManager {
     }
   }
 
-  private _showLocalVideoPreview(stream: MediaStream) {
-    // Show local video preview
-  }
-
   prepareNewPeerConnection(connUserSocketId: string, isInitiator: boolean) {
     const peer = new SimplePeer({
       initiator: isInitiator,
@@ -80,6 +76,30 @@ class WebRtcManager {
   handleSignalingData(signal: SignalData, connUserSocketId: string) {
     // Add signaling data to peer connection
     this._peers.get(connUserSocketId)?.signal(signal);
+  }
+
+  private _showLocalVideoPreview(stream: MediaStream) {
+    // Show local video preview
+    const videosContainer = document.getElementById('videos_portal');
+    videosContainer?.classList.add('videos_portal_styles');
+    if (!videosContainer) {
+      return;
+    }
+
+    const videoContainer = document.createElement('div');
+    videoContainer.classList.add('video_track_container');
+
+    const videoElement = document.createElement('video');
+    videoElement.autoplay = true;
+    videoElement.muted = true;
+    videoElement.srcObject = stream;
+
+    videoElement.onloadedmetadata = () => {
+      videoElement.play();
+    };
+
+    videoContainer.appendChild(videoElement);
+    videosContainer.appendChild(videoContainer);
   }
 
   private _addStream(stream: MediaStream, connUserSocketId: string) {
