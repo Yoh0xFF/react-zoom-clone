@@ -24,7 +24,7 @@ export default function RoomPage(): JSX.Element {
 
   useEffect(() => {
     rtc.getLocalPreviewAndInitRoomConnection(isRoomHost, identity, roomId);
-  }, [isRoomHost, identity, roomId]);
+  }, []);
 
   return (
     <div className='room_container'>
