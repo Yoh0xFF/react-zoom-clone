@@ -32,6 +32,11 @@ class WebSocketManager {
       store.dispatch(setParticipants(connectedUsers));
     });
 
+    this._socket.on('userDisconnected', (data) => {
+      const { disconnUserSocktId } = data;
+      rtc.removePeerConnection(disconnUserSocktId);
+    });
+
     this._socket.on('connPrepare', (data) => {
       const { connUserSocketId } = data;
 

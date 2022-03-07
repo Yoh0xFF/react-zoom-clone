@@ -7,7 +7,10 @@ import { store } from '@app/store/store';
 class WebRtcManager {
   private _defaultConstraints: MediaStreamConstraints = {
     audio: true,
-    video: true,
+    video: {
+      width: 480,
+      height: 360,
+    },
   };
 
   private _localStream!: MediaStream;
@@ -78,6 +81,28 @@ class WebRtcManager {
     this._peers.get(connUserSocketId)?.signal(signal);
   }
 
+  removePeerConnection(disconnUserSocketId: string) {
+    const videoContainer = document.getElementById(disconnUserSocketId);
+    const videoElement = document.getElementById(
+      `${disconnUserSocketId}_video`
+    ) as HTMLVideoElement;
+
+    if (videoContainer && videoElement) {
+      (videoElement.srcObject as MediaStream)
+        .getTracks()
+        .forEach((x) => x.stop());
+
+      videoElement.srcObject = null;
+      videoContainer.removeChild(videoElement);
+      videoContainer.parentNode?.removeChild(videoContainer);
+    }
+
+    if (this._peers.has(disconnUserSocketId)) {
+      this._peers.get(disconnUserSocketId)?.destroy();
+      this._peers.delete(disconnUserSocketId);
+    }
+  }
+
   private _showLocalVideoPreview(stream: MediaStream) {
     // Show local video preview
     const videosContainer = document.getElementById('videos_portal');
@@ -104,6 +129,35 @@ class WebRtcManager {
 
   private _addStream(stream: MediaStream, connUserSocketId: string) {
     // Display incoming stream
+    const videosContainer = document.getElementById('videos_portal');
+    videosContainer?.classList.add('videos_portal_styles');
+    if (!videosContainer) {
+      return;
+    }
+
+    const videoContainer = document.createElement('div');
+    videoContainer.id = connUserSocketId;
+    videoContainer.classList.add('video_track_container');
+
+    const videoElement = document.createElement('video');
+    videoElement.id = `${connUserSocketId}_video`;
+    videoElement.autoplay = true;
+    videoElement.srcObject = stream;
+
+    videoElement.onloadedmetadata = () => {
+      videoElement.play();
+    };
+
+    videoElement.addEventListener('click', () => {
+      if (videoElement.classList.contains('full_screen')) {
+        videoElement.classList.remove('full_screen');
+      } else {
+        videoElement.classList.add('full_screen');
+      }
+    });
+
+    videoContainer.appendChild(videoElement);
+    videosContainer.appendChild(videoContainer);
   }
 }
 

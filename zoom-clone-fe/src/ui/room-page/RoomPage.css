@@ -179,15 +179,6 @@
         z-index: 10;
       } */
 
-.video {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-
 .screen_share_track {
   position: absolute;
   display: flex;
@@ -203,77 +194,6 @@
 .room {
   width: 100%;
   height: 100%;
-}
-
-video {
-  width: 98%;
-  height: 98%;
-}
-
-.video_track_container:first-child:nth-last-child(1) {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-
-.video_track_container:first-child:nth-last-child(2),
-.video_track_container:first-child:nth-last-child(2) ~ .video_track_container {
-  width: 50%;
-  height: 50%;
-  position: relative;
-}
-
-.video_track_container:first-child:nth-last-child(3),
-.video_track_container:first-child:nth-last-child(3) ~ .video_track_container {
-  width: 50%;
-  height: 50%;
-  position: relative;
-}
-
-.video_track_container:first-child:nth-last-child(4),
-.video_track_container:first-child:nth-last-child(4) ~ .video_track_container {
-  width: 50%;
-  height: 50%;
-  position: relative;
-}
-
-.video_track_container:first-child:nth-last-child(5),
-.video_track_container:first-child:nth-last-child(5) ~ .video_track_container {
-  width: 33%;
-  height: 33%;
-  position: relative;
-}
-
-.video_track_container:first-child:nth-last-child(6),
-.video_track_container:first-child:nth-last-child(6) ~ .video_track_container {
-  width: 33%;
-  height: 33%;
-}
-
-.video_track_container:first-child:nth-last-child(7),
-.video_track_container:first-child:nth-last-child(7) ~ .video_track_container {
-  width: 33%;
-  height: 33%;
-}
-
-.video_track_container:first-child:nth-last-child(8),
-.video_track_container:first-child:nth-last-child(8) ~ .video_track_container {
-  width: 33%;
-  height: 33%;
-}
-
-.video_track_container:first-child:nth-last-child(9),
-.video_track_container:first-child:nth-last-child(9) ~ .video_track_container {
-  width: 33%;
-  height: 33%;
-}
-
-.full_screen {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0%;
-  left: 0%;
 }
 
 .label_only_audio_container {

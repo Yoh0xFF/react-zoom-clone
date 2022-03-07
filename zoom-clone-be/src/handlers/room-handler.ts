@@ -116,8 +116,13 @@ export function disconnectHandler(
     socket.leave(room.id);
     connectedUsers.splice(connectedUsers.indexOf(user), 1);
 
-    // emit user disconnected event to the connected users in the room
     if (room.connectedUsers.length > 0) {
+      // emit user disconnected event to the connected users in the room
+      server
+        .to(room.id)
+        .emit('userDisconnected', { disconnUserSocktId: socket.id });
+
+      // emit room updated event to the connected users in the room
       server
         .to(room.id)
         .emit('roomUpdated', { connectedUsers: room.connectedUsers });
