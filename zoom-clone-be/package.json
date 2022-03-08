@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "watch": "ts-node-dev ./src/server.ts",
+    "start": "ts-node-dev ./src/server.ts",
     "build": "tsc && copyfiles -u 1 src/**/*.hbs dist/",
     "serve": "npm run build && node dist/server.js"
   },
