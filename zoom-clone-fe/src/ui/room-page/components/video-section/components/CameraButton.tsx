@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import './CameraButton.css';
 
+import { rtc } from '@app/api/web-rtc-handler';
 import CameraButtonImg from '@app/resources/images/camera.svg';
 import CameraButtonImgOff from '@app/resources/images/cameraOff.svg';
 
@@ -12,6 +13,7 @@ export default function CameraButton(props: CameraButtonProps): JSX.Element {
     useState<boolean>(false);
 
   const cameraButtonPressedHandler = () => {
+    rtc.toggleVideo(isLocalVideoDisabled);
     setIsLocalVideoDisabled(!isLocalVideoDisabled);
   };
 

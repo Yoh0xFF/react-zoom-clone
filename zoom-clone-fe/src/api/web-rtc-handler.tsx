@@ -159,6 +159,14 @@ class WebRtcManager {
     videoContainer.appendChild(videoElement);
     videosContainer.appendChild(videoContainer);
   }
+
+  toggleMic(state: boolean) {
+    this._localStream.getAudioTracks().forEach((x) => (x.enabled = state));
+  }
+
+  toggleVideo(state: boolean) {
+    this._localStream.getVideoTracks().forEach((x) => (x.enabled = state));
+  }
 }
 
 export const rtc = new WebRtcManager();

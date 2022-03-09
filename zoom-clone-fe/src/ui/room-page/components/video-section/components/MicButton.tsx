@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import './MicButton.css';
 
+import { rtc } from '@app/api/web-rtc-handler';
 import MicButtonImg from '@app/resources/images/mic.svg';
 import MicButtonImgOff from '@app/resources/images/micOff.svg';
 
@@ -11,6 +12,7 @@ export default function MicButton(props: MicButtonProps): JSX.Element {
   const [isMicMuted, setIsMicMuted] = useState<boolean>(false);
 
   const micButtonPressedHandler = () => {
+    rtc.toggleMic(isMicMuted);
     setIsMicMuted(!isMicMuted);
   };
 
