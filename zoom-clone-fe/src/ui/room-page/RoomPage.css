@@ -137,20 +137,6 @@
   border-right: 1px solid #e5e5e5;
 }
 
-.local_screen_share_preview {
-  position: absolute;
-  width: 15%;
-  height: 90%;
-  background-color: black;
-  border-radius: 8px;
-  border: 2px solid blue;
-  left: 1%;
-  bottom: 1%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .videos_container {
   height: 90%;
   width: 100%;

@@ -167,6 +167,21 @@ class WebRtcManager {
   toggleVideo(state: boolean) {
     this._localStream.getVideoTracks().forEach((x) => (x.enabled = state));
   }
+
+  toggleScreenShare(
+    isScreenSharingActive: boolean,
+    screenSharingStream?: MediaStream
+  ) {
+    if (isScreenSharingActive && screenSharingStream) {
+      this._switchVideoTracks(screenSharingStream);
+    } else {
+      this._switchVideoTracks(this._localStream);
+    }
+  }
+
+  _switchVideoTracks(stream: MediaStream) {
+    // TODO
+  }
 }
 
 export const rtc = new WebRtcManager();
