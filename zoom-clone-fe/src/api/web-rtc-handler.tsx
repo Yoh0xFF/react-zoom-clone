@@ -15,7 +15,7 @@ class WebRtcManager {
 
   private _localStream!: MediaStream;
   private _peers = new Map<string, SimplePeer.Instance>();
-  private _streams = new Array<MediaStream>();
+  private _streams = new Map<string, MediaStream>();
 
   async getLocalPreviewAndInitRoomConnection(
     isRoomHost: boolean,
@@ -72,7 +72,7 @@ class WebRtcManager {
     this._peers.get(connUserSocketId)?.on('stream', (stream) => {
       console.log('new stream started');
       this._addStream(stream, connUserSocketId);
-      this._streams.push(stream);
+      this._streams.set(connUserSocketId, stream);
     });
   }
 
@@ -172,15 +172,39 @@ class WebRtcManager {
     isScreenSharingActive: boolean,
     screenSharingStream?: MediaStream
   ) {
-    if (isScreenSharingActive && screenSharingStream) {
-      this._switchVideoTracks(screenSharingStream);
+    if (isScreenSharingActive) {
+      if (screenSharingStream) {
+        this._switchVideoTracks(screenSharingStream);
+      }
     } else {
       this._switchVideoTracks(this._localStream);
     }
   }
 
-  _switchVideoTracks(stream: MediaStream) {
-    // TODO
+  private _switchVideoTracks(stream: MediaStream) {
+    this._peers.forEach((peer) => {
+      const peerStream = (peer as any).streams[0];
+      if (!peerStream) {
+        return;
+      }
+
+      for (const i in peerStream.getTracks()) {
+        for (const j in stream.getTracks()) {
+          if (peerStream.getTracks()[i].kind !== stream.getTracks()[j].kind) {
+            continue;
+          }
+
+          console.log('replace', i, j);
+
+          peer.replaceTrack(
+            peerStream.getTracks()[i],
+            stream.getTracks()[j],
+            peerStream
+          );
+          break;
+        }
+      }
+    });
   }
 }
 

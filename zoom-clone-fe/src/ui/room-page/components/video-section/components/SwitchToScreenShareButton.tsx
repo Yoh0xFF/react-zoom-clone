@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import LocalScreenSharingPreview from './LocalScreenSharingPreview';
 import './SwitchToScreenShareButton.css';
 
+import { rtc } from '@app/api/web-rtc-handler';
 import SwitchImg from '@app/resources/images/switchToScreenSharing.svg';
 
 export interface SwitchToScreenShareButtonProps {}
@@ -28,12 +29,14 @@ export default function SwitchToScreenShareButton(
 
       if (stream) {
         setScreenSharingStream(stream);
-        setIsScreenSharingActive(!isScreenSharingActive);
+        setIsScreenSharingActive(true);
         // Switch the video track wich we are sharing with other users
+        rtc.toggleScreenShare(true, stream);
       }
     } else {
       // Switch the video track wich we are sharing with other users
-      setIsScreenSharingActive(!isScreenSharingActive);
+      rtc.toggleScreenShare(false);
+      setIsScreenSharingActive(false);
 
       // Stop the screen sharing stream
       screenSharingStream?.getTracks().forEach((x) => x.stop());
