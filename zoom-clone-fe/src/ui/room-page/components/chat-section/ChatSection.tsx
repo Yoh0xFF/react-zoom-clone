@@ -3,6 +3,7 @@ import React from 'react';
 import './ChatSection.css';
 import ChatLabel from './components/ChatLabel';
 import Messages from './components/Messages';
+import NewMessage from './components/NewMessage';
 
 import { MessageType } from '@app/types/message';
 
@@ -20,6 +21,7 @@ export default function ChatSection(props: ChatSectionProps): JSX.Element {
     <div className='chat_section_container'>
       <ChatLabel />
       <Messages messages={messages} />
+      <NewMessage />
     </div>
   );
 }
