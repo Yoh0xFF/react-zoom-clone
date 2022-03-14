@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import LocalScreenSharingPreview from './LocalScreenSharingPreview';
 import './SwitchToScreenShareButton.css';
 
-import { rtc } from '@app/api/web-rtc-handler';
+import { rtc } from '@app/api/webrtc';
 import SwitchImg from '@app/resources/images/switchToScreenSharing.svg';
 
 export interface SwitchToScreenShareButtonProps {}

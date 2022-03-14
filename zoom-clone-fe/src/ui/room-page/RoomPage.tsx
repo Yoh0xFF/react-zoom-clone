@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import './RoomPage.css';
 
-import { rtc } from '@app/api/web-rtc-handler';
+import { rtc } from '@app/api/webrtc';
 import { useAppSelector } from '@app/store/hooks';
 import {
   selectIdentity,

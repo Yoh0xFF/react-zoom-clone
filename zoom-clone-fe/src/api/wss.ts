@@ -1,7 +1,7 @@
 import { SignalData } from 'simple-peer';
 import { Socket, io } from 'socket.io-client';
 
-import { rtc } from '@app/api/web-rtc-handler';
+import { rtc } from '@app/api/webrtc';
 import { setParticipants, setRoomId } from '@app/store/slices/connection-slice';
 import { store } from '@app/store/store';
 import { ClientToServerEvent, ServerToClientEvent } from '@app/types/wss';

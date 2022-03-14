@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import './CameraButton.css';
 
-import { rtc } from '@app/api/web-rtc-handler';
+import { rtc } from '@app/api/webrtc';
 import CameraButtonImg from '@app/resources/images/camera.svg';
 import CameraButtonImgOff from '@app/resources/images/cameraOff.svg';
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import './MicButton.css';
 
-import { rtc } from '@app/api/web-rtc-handler';
+import { rtc } from '@app/api/webrtc';
 import MicButtonImg from '@app/resources/images/mic.svg';
 import MicButtonImgOff from '@app/resources/images/micOff.svg';
 
