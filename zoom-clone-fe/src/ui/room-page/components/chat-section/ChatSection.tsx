@@ -5,18 +5,12 @@ import ChatLabel from './components/ChatLabel';
 import Messages from './components/Messages';
 import NewMessage from './components/NewMessage';
 
-import { MessageType } from '@app/types/message';
+import { useAppSelector } from '@app/store/hooks';
+import { selectMessages } from '@app/store/slices/chat-slice-selectors';
 
-export interface ChatSectionProps {}
+export default function ChatSection(): JSX.Element {
+  const messages = useAppSelector(selectMessages);
 
-const messages: Array<MessageType> = [
-  { identity: 'Yoh', content: 'Hey', messageCreatedByMe: true },
-  { identity: 'Yoh', content: 'Hello everyone', messageCreatedByMe: true },
-  { identity: 'John', content: 'Hello Yoh', messageCreatedByMe: false },
-  { identity: 'Anna', content: 'Hello everyone', messageCreatedByMe: false },
-];
-
-export default function ChatSection(props: ChatSectionProps): JSX.Element {
   return (
     <div className='chat_section_container'>
       <ChatLabel />

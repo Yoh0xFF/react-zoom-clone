@@ -1,6 +1,7 @@
 import SimplePeer, { SignalData } from 'simple-peer';
 
 import { wss } from '@app/api/wss';
+import { appendMessage } from '@app/store/slices/chat-slice';
 import { setShowOverlay } from '@app/store/slices/connection-slice';
 import { store } from '@app/store/store';
 
@@ -73,6 +74,10 @@ class WebRtcManager {
       console.log('new stream started');
       this._addStream(stream, connUserSocketId);
       this._streams.set(connUserSocketId, stream);
+    });
+
+    this._peers.get(connUserSocketId)?.on('data', (data) => {
+      store.dispatch(appendMessage(JSON.parse(data)));
     });
   }
 
@@ -204,6 +209,23 @@ class WebRtcManager {
           break;
         }
       }
+    });
+  }
+
+  sendMessageUsingDataChannel(content: string) {
+    // Get sender identity
+    const identity = store.getState().connection.identity || '';
+
+    // Create new message and add to the local store
+    store.dispatch(
+      appendMessage({ identity, content, messageCreatedByMe: true })
+    );
+
+    // Send message via peer data channel
+    this._peers.forEach((peer) => {
+      peer.send(
+        JSON.stringify({ identity, content, messageCreatedByMe: false })
+      );
     });
   }
 }

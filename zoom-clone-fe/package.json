@@ -33,6 +33,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/simple-peer": "^9.11.4",
     "prettier": "^2.5.1",
+    "process": "^0.11.10",
     "react-app-rewire-alias": "^1.1.7",
     "react-app-rewired": "^2.2.1"
   },

@@ -2,6 +2,7 @@ import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 
 import './NewMessage.css';
 
+import { rtc } from '@app/api/webrtc';
 import SendMessageButton from '@app/resources/images/sendMessageButton.svg';
 
 export default function NewMessage(): JSX.Element {
@@ -24,8 +25,7 @@ export default function NewMessage(): JSX.Element {
     }
 
     // Send message to other users
-    console.log('Sending message to other users');
-    console.log(message);
+    rtc.sendMessageUsingDataChannel(message);
 
     setMessage('');
   };
