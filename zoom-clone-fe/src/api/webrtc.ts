@@ -1,5 +1,7 @@
 import SimplePeer, { SignalData } from 'simple-peer';
 
+import { turn } from './turn';
+
 import { wss } from '@app/api/wss';
 import { appendMessage } from '@app/store/slices/chat-slice';
 import { setShowOverlay } from '@app/store/slices/connection-slice';
@@ -32,6 +34,8 @@ class WebRtcManager {
     try {
       store.dispatch(setShowOverlay(true));
 
+      await turn.fetchTurnIceServers();
+
       const stream = await navigator.mediaDevices.getUserMedia(
         !onlyAudio ? this._defaultConstraints : this._audioOnlyConstraints
       );
@@ -58,6 +62,8 @@ class WebRtcManager {
   }
 
   prepareNewPeerConnection(connUserSocketId: string, isInitiator: boolean) {
+    const turnIceServers = turn.getTurnIceServers();
+
     const peer = new SimplePeer({
       initiator: isInitiator,
       config: {
@@ -65,6 +71,7 @@ class WebRtcManager {
           {
             urls: 'stun:stun.l.google.com:19302',
           },
+          ...turnIceServers,
         ],
       },
       stream: this._localStream,
