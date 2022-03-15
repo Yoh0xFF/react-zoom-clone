@@ -12,8 +12,12 @@ export interface ServerToClientEvent {
 }
 
 export interface ClientToServerEvent {
-  createNewRoom: (data: { identity: string }) => void;
-  joinRoom: (data: { identity: string; roomId: string }) => void;
+  createNewRoom: (data: { identity: string; onlyAudio: boolean }) => void;
+  joinRoom: (data: {
+    identity: string;
+    onlyAudio: boolean;
+    roomId: string;
+  }) => void;
   connInit: (data: { connUserSocketId: string }) => void;
   connSignal: (data: { signal: SignalData; connUserSocketId: string }) => void;
 }

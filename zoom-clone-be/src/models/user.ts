@@ -3,4 +3,5 @@ export interface User {
   socketId: string;
   identity: string;
   roomId: string;
+  onlyAudio: boolean;
 }

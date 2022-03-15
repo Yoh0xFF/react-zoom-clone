@@ -14,6 +14,11 @@ class WebRtcManager {
     },
   };
 
+  private _audioOnlyConstraints: MediaStreamConstraints = {
+    audio: true,
+    video: false,
+  };
+
   private _localStream!: MediaStream;
   private _peers = new Map<string, SimplePeer.Instance>();
   private _streams = new Map<string, MediaStream>();
@@ -21,13 +26,14 @@ class WebRtcManager {
   async getLocalPreviewAndInitRoomConnection(
     isRoomHost: boolean,
     identity: string,
+    onlyAudio: boolean,
     roomId?: string
   ) {
     try {
       store.dispatch(setShowOverlay(true));
 
       const stream = await navigator.mediaDevices.getUserMedia(
-        this._defaultConstraints
+        !onlyAudio ? this._defaultConstraints : this._audioOnlyConstraints
       );
 
       console.log('Successfully received local stream');
@@ -37,9 +43,9 @@ class WebRtcManager {
       this._showLocalVideoPreview(stream);
 
       if (isRoomHost) {
-        wss.createNewRoom(identity);
+        wss.createNewRoom(identity, onlyAudio);
       } else if (roomId) {
-        wss.joinRoom(identity, roomId);
+        wss.joinRoom(identity, onlyAudio, roomId);
       }
     } catch (error) {
       console.log(
@@ -129,6 +135,12 @@ class WebRtcManager {
     };
 
     videoContainer.appendChild(videoElement);
+
+    // check if user connected only with audio
+    if (store.getState().connection.connectOnlyWithAudio) {
+      videoContainer.appendChild(this._getAudioOnlyLabel());
+    }
+
     videosContainer.appendChild(videoContainer);
   }
 
@@ -162,7 +174,27 @@ class WebRtcManager {
     });
 
     videoContainer.appendChild(videoElement);
+
+    // check if user connected only with audio
+    const users = store.getState().connection.participants;
+    const user = users.find((x) => x.socketId === connUserSocketId);
+    if (user && user.onlyAudio) {
+      videoContainer.appendChild(this._getAudioOnlyLabel(user.identity));
+    }
+
     videosContainer.appendChild(videoContainer);
+  }
+
+  private _getAudioOnlyLabel(identity?: string): HTMLDivElement {
+    const labelContainer = document.createElement('div');
+    labelContainer.classList.add('label_only_audio_container');
+
+    const label = document.createElement('p');
+    label.classList.add('label_only_audio_text');
+    label.innerHTML = `Only audio ${identity ? identity : ''}`;
+
+    labelContainer.appendChild(label);
+    return labelContainer;
   }
 
   toggleMic(state: boolean) {

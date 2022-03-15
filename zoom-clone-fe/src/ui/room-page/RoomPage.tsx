@@ -5,6 +5,7 @@ import './RoomPage.css';
 import { rtc } from '@app/api/webrtc';
 import { useAppSelector } from '@app/store/hooks';
 import {
+  selectConnectOnlyWithAudio,
   selectIdentity,
   selectIsRoomHost,
   selectRoomId,
@@ -18,12 +19,24 @@ import VideoSection from '@app/ui/room-page/components/video-section/VideoSectio
 
 export default function RoomPage(): JSX.Element {
   const isRoomHost = useAppSelector(selectIsRoomHost);
+  const connectOnlyWithAudio = useAppSelector(selectConnectOnlyWithAudio);
   const roomId = useAppSelector(selectRoomId) || '';
   const identity = useAppSelector(selectIdentity) || 'Ioram Gordadze';
   const showOverlay = useAppSelector(selectShowOverlay);
 
   useEffect(() => {
-    rtc.getLocalPreviewAndInitRoomConnection(isRoomHost, identity, roomId);
+    if (!isRoomHost && !roomId) {
+      const siteUrl = window.location.origin;
+      window.location.href = siteUrl;
+      return;
+    }
+
+    rtc.getLocalPreviewAndInitRoomConnection(
+      isRoomHost,
+      identity,
+      connectOnlyWithAudio,
+      roomId
+    );
   }, []);
 
   return (

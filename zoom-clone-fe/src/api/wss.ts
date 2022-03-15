@@ -59,12 +59,12 @@ class WebSocketManager {
     });
   }
 
-  createNewRoom(identity: string) {
-    this._socket.emit('createNewRoom', { identity });
+  createNewRoom(identity: string, onlyAudio: boolean) {
+    this._socket.emit('createNewRoom', { identity, onlyAudio });
   }
 
-  joinRoom(identity: string, roomId: string) {
-    this._socket.emit('joinRoom', { identity, roomId });
+  joinRoom(identity: string, onlyAudio: boolean, roomId: string) {
+    this._socket.emit('joinRoom', { identity, onlyAudio, roomId });
   }
 
   signalPeerData(signal: SignalData, connUserSocketId: string) {

@@ -8,17 +8,18 @@ import { SignalData } from 'simple-peer';
 
 export function createNewRoomHandler(
   socket: Socket<ClientToServerEvent, ServerToClientEvent>,
-  data: { identity: string }
+  data: { identity: string; onlyAudio: boolean }
 ) {
-  const { identity } = data;
+  const { identity, onlyAudio } = data;
   const roomId = uuid();
 
   // Create new user
   const newUser: User = {
     id: uuid(),
     socketId: socket.id,
-    identity: identity,
-    roomId: roomId,
+    identity,
+    roomId,
+    onlyAudio,
   };
   connectedUsers.push(newUser);
 
@@ -41,16 +42,17 @@ export function createNewRoomHandler(
 export function joinRoomHandler(
   server: Server<ClientToServerEvent, ServerToClientEvent>,
   socket: Socket<ClientToServerEvent, ServerToClientEvent>,
-  data: { identity: string; roomId: string }
+  data: { identity: string; onlyAudio: boolean; roomId: string }
 ) {
-  const { identity, roomId } = data;
+  const { identity, onlyAudio, roomId } = data;
 
   // Create new user
   const newUser: User = {
     id: uuid(),
     socketId: socket.id,
-    identity: identity,
-    roomId: roomId,
+    identity,
+    roomId,
+    onlyAudio,
   };
 
   // Find and join the room

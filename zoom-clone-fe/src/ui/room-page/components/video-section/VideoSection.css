@@ -23,54 +23,63 @@ video {
 .video_track_container:first-child:nth-last-child(1) {
   width: 100%;
   height: 100%;
+  position: relative;
 }
 
 .video_track_container:first-child:nth-last-child(2),
 .video_track_container:first-child:nth-last-child(2) ~ .video_track_container {
   width: 50%;
   height: 50%;
+  position: relative;
 }
 
 .video_track_container:first-child:nth-last-child(3),
 .video_track_container:first-child:nth-last-child(3) ~ .video_track_container {
   width: 50%;
   height: 50%;
+  position: relative;
 }
 
 .video_track_container:first-child:nth-last-child(4),
 .video_track_container:first-child:nth-last-child(4) ~ .video_track_container {
   width: 50%;
   height: 50%;
+  position: relative;
 }
 
 .video_track_container:first-child:nth-last-child(5),
 .video_track_container:first-child:nth-last-child(5) ~ .video_track_container {
   width: 33%;
   height: 33%;
+  position: relative;
 }
 
 .video_track_container:first-child:nth-last-child(6),
 .video_track_container:first-child:nth-last-child(6) ~ .video_track_container {
   width: 33%;
   height: 33%;
+  position: relative;
 }
 
 .video_track_container:first-child:nth-last-child(7),
 .video_track_container:first-child:nth-last-child(7) ~ .video_track_container {
   width: 33%;
   height: 33%;
+  position: relative;
 }
 
 .video_track_container:first-child:nth-last-child(8),
 .video_track_container:first-child:nth-last-child(8) ~ .video_track_container {
   width: 33%;
   height: 33%;
+  position: relative;
 }
 
 .video_track_container:first-child:nth-last-child(9),
 .video_track_container:first-child:nth-last-child(9) ~ .video_track_container {
   width: 33%;
   height: 33%;
+  position: relative;
 }
 
 .full_screen {
@@ -79,4 +88,21 @@ video {
   height: 100%;
   top: 0%;
   left: 0%;
+}
+
+.label_only_audio_container {
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+}
+
+.label_only_audio_text {
+  font-size: 18px;
+  color: black;
 }
