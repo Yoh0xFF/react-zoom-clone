@@ -187,6 +187,8 @@ class WebRtcManager {
     const user = users.find((x) => x.socketId === connUserSocketId);
     if (user && user.onlyAudio) {
       videoContainer.appendChild(this._getAudioOnlyLabel(user.identity));
+    } else {
+      videoContainer.style.position = 'static';
     }
 
     videosContainer.appendChild(videoContainer);
