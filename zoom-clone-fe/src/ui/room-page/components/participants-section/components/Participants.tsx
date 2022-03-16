@@ -16,7 +16,7 @@ export default function Participants(props: ParticipantsProps): JSX.Element {
         return (
           <Participant
             key={x.identity}
-            identity={x.identity}
+            participant={x}
             lastItem={props.participants.length === i + 1}
           />
         );

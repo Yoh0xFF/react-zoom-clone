@@ -1,0 +1,9 @@
+.direct_messages_container {
+  flex-grow: 1;
+  width: 95%;
+  border-left: 1px solid #e5e5e5;
+  border-right: 1px solid #e5e5e5;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}

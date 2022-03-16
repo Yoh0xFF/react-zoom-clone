@@ -2,6 +2,7 @@ import { SignalData } from 'simple-peer';
 import { Socket, io } from 'socket.io-client';
 
 import { rtc } from '@app/api/webrtc';
+import { setSocketId } from '@app/store/slices/chat-slice';
 import { setParticipants, setRoomId } from '@app/store/slices/connection-slice';
 import { store } from '@app/store/store';
 import { ClientToServerEvent, ServerToClientEvent } from '@app/types/wss';
@@ -20,6 +21,7 @@ class WebSocketManager {
     this._socket.on('connect', () => {
       console.log('Successfully connected to the socket io server');
       console.log(this._socket.id);
+      store.dispatch(setSocketId(this._socket.id));
     });
 
     this._socket.on('newRoomCreated', (data) => {

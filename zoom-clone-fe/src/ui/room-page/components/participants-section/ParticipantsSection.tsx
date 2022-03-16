@@ -1,6 +1,7 @@
 import React from 'react';
 
 import './ParticipantsSection.css';
+import DirectChat from './components/direct-chat/DirectChat';
 
 import { useAppSelector } from '@app/store/hooks';
 import { selectParticipants } from '@app/store/slices/connection-slice-selectors';
@@ -18,6 +19,7 @@ export default function ParticipantsSection(
     <div className='participants_section_container'>
       <ParticipantsLabel />
       <Participants participants={participants} />
+      <DirectChat />
     </div>
   );
 }

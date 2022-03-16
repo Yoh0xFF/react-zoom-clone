@@ -1,0 +1,15 @@
+.direct_chat_header {
+  height: 50px;
+  background: linear-gradient(168.68deg, #0052c9 1.12%, #0a91db 100%);
+  width: 95%;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.direct_chat_header_paragraph {
+  color: white;
+  font-size: 16px;
+}

@@ -1,0 +1,18 @@
+.conversation_not_chosen_overlay {
+  width: 95%;
+  height: 86%;
+  bottom: 0;
+  left: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.6;
+  position: absolute;
+}
+
+.conversation_not_chosen_overlay_text {
+  font-size: 16px;
+  font-weight: 700;
+  color: black;
+  margin-bottom: 80px;
+}

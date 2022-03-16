@@ -1,0 +1,39 @@
+.direct_message_container_author {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.direct_message_container_receiver {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.author_direct_message {
+  background: linear-gradient(168.68deg, #0052c9 1.12%, #0a91db 100%);
+  float: right;
+  border-radius: 8px 8px 0px 8px;
+  padding: 13px;
+  margin-right: 5px;
+  color: white;
+  display: inline;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+.receiver_direct_message {
+  border-radius: 8px 8px 8px 0px;
+  border: 1px solid #d5deeb;
+  background: #ffffff;
+  padding: 13px;
+  float: left;
+  margin-left: 5px;
+  display: inline;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 14px;
+  margin-right: 5px;
+}
