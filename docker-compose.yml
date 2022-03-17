@@ -1,0 +1,24 @@
+version: '3.1'
+
+services:
+  front-end:
+    build:
+      context: ./zoom-clone-be
+    ports:
+      - "3000:3000"
+    entrypoint: npm
+    command: ["run", "start"]
+    volumes:
+      - ./zoom-clone-fe:/var/app
+    depends_on:
+      - back-end
+
+  back-end:
+    build:
+      context: ./zoom-clone-be
+    ports:
+      - "8080:8080"
+    entrypoint: npm
+    command: ["run", "start"]
+    volumes:
+      - ./zoom-clone-be:/var/app
