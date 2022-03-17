@@ -1,18 +1,18 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { MessageType } from '@app/types/message';
+import { DirectMessageType, MessageType } from '@app/types/message';
 import { User } from '@app/types/user';
 
 export interface ChatState {
   messages: Array<MessageType>;
   activeConversation?: User;
-  directChatHistory: Array<MessageType>;
+  directChatHistory: { [key: string]: Array<DirectMessageType> };
   socketId?: string;
 }
 
 const initialState: ChatState = {
   messages: [],
-  directChatHistory: [],
+  directChatHistory: {},
 };
 
 export const chatSlice = createSlice({
@@ -28,11 +28,24 @@ export const chatSlice = createSlice({
     setActiveConversation: (state, action: PayloadAction<User>) => {
       state.activeConversation = action.payload;
     },
-    setDirectChatHistory: (
+    appendDirectChatHisotry: (
       state,
-      action: PayloadAction<Array<MessageType>>
+      action: PayloadAction<DirectMessageType>
     ) => {
-      state.directChatHistory = action.payload;
+      const message = action.payload;
+
+      const userSocketId = message.messageCreatedByMe
+        ? message.receiverSocketId
+        : message.authorSocketId;
+      if (!userSocketId) {
+        return;
+      }
+
+      const existingChatHistory = state.directChatHistory[userSocketId];
+      const newChatHistory = existingChatHistory
+        ? [...existingChatHistory, message]
+        : [message];
+      state.directChatHistory[userSocketId] = newChatHistory;
     },
     setSocketId: (state, action: PayloadAction<string>) => {
       state.socketId = action.payload;
@@ -44,7 +57,7 @@ export const {
   setMessages,
   appendMessage,
   setActiveConversation,
-  setDirectChatHistory,
+  appendDirectChatHisotry,
   setSocketId,
 } = chatSlice.actions;
 

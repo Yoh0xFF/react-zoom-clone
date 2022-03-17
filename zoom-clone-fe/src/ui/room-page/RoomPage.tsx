@@ -21,7 +21,7 @@ export default function RoomPage(): JSX.Element {
   const isRoomHost = useAppSelector(selectIsRoomHost);
   const connectOnlyWithAudio = useAppSelector(selectConnectOnlyWithAudio);
   const roomId = useAppSelector(selectRoomId) || '';
-  const identity = useAppSelector(selectIdentity) || 'Ioram Gordadze';
+  const identity = useAppSelector(selectIdentity) || '';
   const showOverlay = useAppSelector(selectShowOverlay);
 
   useEffect(() => {

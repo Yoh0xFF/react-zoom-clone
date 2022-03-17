@@ -1,10 +1,11 @@
+import { SignalData } from 'simple-peer';
+import { Server, Socket } from 'socket.io';
+import { DirectMessageType } from '../models/message';
 import { v4 as uuid } from 'uuid';
-import { User } from '../models/user';
 import { connectedUsers, rooms } from '../dummy-data';
 import { Room } from '../models/room';
-import { Server, Socket } from 'socket.io';
+import { User } from '../models/user';
 import { ClientToServerEvent, ServerToClientEvent } from '../models/wss';
-import { SignalData } from 'simple-peer';
 
 export function createNewRoomHandler(
   socket: Socket<ClientToServerEvent, ServerToClientEvent>,
@@ -101,6 +102,35 @@ export function signalingHandler(
   server
     .to(connUserSocketId)
     .emit('connSignal', { signal: signal, connUserSocketId: socket.id });
+}
+
+export function directMessageHandler(
+  server: Server<ClientToServerEvent, ServerToClientEvent>,
+  socket: Socket<ClientToServerEvent, ServerToClientEvent>,
+  data: DirectMessageType
+) {
+  const { receiverSocketId, identity, content } = data;
+
+  const receiver = connectedUsers.find((x) => x.socketId === receiverSocketId);
+  if (!receiver) {
+    return;
+  }
+
+  const receiverData: DirectMessageType = {
+    authorSocketId: socket.id,
+    content,
+    messageCreatedByMe: false,
+    identity,
+  };
+  server.to(data.receiverSocketId).emit('directMessage', receiverData);
+
+  const authorData: DirectMessageType = {
+    receiverSocketId: data.receiverSocketId,
+    content,
+    messageCreatedByMe: true,
+    identity,
+  };
+  socket.emit('directMessage', authorData);
 }
 
 export function disconnectHandler(

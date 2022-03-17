@@ -1,4 +1,5 @@
 import { SignalData } from 'simple-peer';
+import { DirectMessageType } from './message';
 import { User } from './user';
 
 export interface ServerToClientEvent {
@@ -8,6 +9,7 @@ export interface ServerToClientEvent {
   connPrepare: (data: { connUserSocketId: string }) => void;
   connInit: (data: { connUserSocketId: string }) => void;
   connSignal: (data: { signal: SignalData; connUserSocketId: string }) => void;
+  directMessage: (data: DirectMessageType) => void;
 }
 
 export interface ClientToServerEvent {
@@ -19,4 +21,5 @@ export interface ClientToServerEvent {
   }) => void;
   connInit: (data: { connUserSocketId: string }) => void;
   connSignal: (data: { signal: SignalData; connUserSocketId: string }) => void;
+  directMessage: (data: DirectMessageType) => void;
 }

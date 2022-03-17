@@ -2,9 +2,13 @@ import { SignalData } from 'simple-peer';
 import { Socket, io } from 'socket.io-client';
 
 import { rtc } from '@app/api/webrtc';
-import { setSocketId } from '@app/store/slices/chat-slice';
+import {
+  appendDirectChatHisotry,
+  setSocketId,
+} from '@app/store/slices/chat-slice';
 import { setParticipants, setRoomId } from '@app/store/slices/connection-slice';
 import { store } from '@app/store/store';
+import { DirectMessageType } from '@app/types/message';
 import { ClientToServerEvent, ServerToClientEvent } from '@app/types/wss';
 
 class WebSocketManager {
@@ -59,6 +63,10 @@ class WebSocketManager {
 
       rtc.handleSignalingData(signal, connUserSocketId);
     });
+
+    this._socket.on('directMessage', (data) => {
+      store.dispatch(appendDirectChatHisotry(data));
+    });
   }
 
   createNewRoom(identity: string, onlyAudio: boolean) {
@@ -71,6 +79,10 @@ class WebSocketManager {
 
   signalPeerData(signal: SignalData, connUserSocketId: string) {
     this._socket.emit('connSignal', { signal, connUserSocketId });
+  }
+
+  sendDirectMessage(message: DirectMessageType) {
+    this._socket.emit('directMessage', message);
   }
 }
 

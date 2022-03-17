@@ -2,7 +2,7 @@ import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 
 import './NewMessage.css';
 
-import { rtc } from '@app/api/webrtc';
+import { wss } from '@app/api/wss';
 import SendMessageButton from '@app/resources/images/sendMessageButton.svg';
 import { User } from '@app/types/user';
 
@@ -26,12 +26,17 @@ export default function NewMessage(props: NewMessageProps): JSX.Element {
   };
 
   const sendMessageHandler = () => {
-    if (!message) {
+    if (!message || !props.activeConversation || !props.identity) {
       return;
     }
 
     // Send message to other users
     // rtc.sendMessageUsingDataChannel(message);
+    wss.sendDirectMessage({
+      receiverSocketId: props.activeConversation.socketId,
+      identity: props.identity,
+      content: message,
+    });
 
     setMessage('');
   };

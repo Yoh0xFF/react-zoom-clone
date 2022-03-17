@@ -9,6 +9,7 @@ import app from './app';
 import { ClientToServerEvent, ServerToClientEvent } from './models/wss';
 import {
   createNewRoomHandler,
+  directMessageHandler,
   disconnectHandler,
   initConnectionHandler,
   joinRoomHandler,
@@ -58,6 +59,10 @@ io.on('connection', (socket) => {
 
   socket.on('connSignal', (data) => {
     signalingHandler(io, socket, data);
+  });
+
+  socket.on('directMessage', (data) => {
+    directMessageHandler(io, socket, data);
   });
 
   socket.on('disconnect', () => {

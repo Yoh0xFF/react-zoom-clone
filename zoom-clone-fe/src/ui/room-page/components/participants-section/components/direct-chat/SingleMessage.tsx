@@ -2,10 +2,10 @@ import React from 'react';
 
 import './SingleMessage.css';
 
-import { MessageType } from '@app/types/message';
+import { DirectMessageType } from '@app/types/message';
 
 export interface SingleMessageProps {
-  message: MessageType;
+  message: DirectMessageType;
 }
 
 export default function SingleMessage(props: SingleMessageProps): JSX.Element {
