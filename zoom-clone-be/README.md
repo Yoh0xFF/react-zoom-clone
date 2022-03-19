@@ -5,8 +5,8 @@ Sample project demonstrating WebRTC using express, socket io and simple peer.
 ## Used core libraries
 
 - [express](https://expressjs.com/)
-- [simple-peer](https://github.com/feross/simple-peer)
 - [socket.io](https://socket.io/)
+- [simple-peer](https://github.com/feross/simple-peer)
 
 ## You can run app with npm
 

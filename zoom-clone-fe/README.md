@@ -7,9 +7,9 @@ Sample project demonstrating React SPA application and WebRTC.
 - [react](https://reactjs.org/)
 - [react-router](https://reactrouter.com/)
 - [react-redux](https://redux-toolkit.js.org/)
-- [simple-peer](https://github.com/feross/simple-peer)
-- [socket.io](https://socket.io/)
 - [axios](https://github.com/axios/axios)
+- [socket.io](https://socket.io/)
+- [simple-peer](https://github.com/feross/simple-peer)
 
 ## You can run app with npm
 
