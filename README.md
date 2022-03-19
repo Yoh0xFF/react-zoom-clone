@@ -1,6 +1,17 @@
-# zoom-clone
+# Zoom Clone
 
 Sample application demonstrating WebRTC with React SPA.
+
+## You can run app with docker compose
+
+- **start** - docker-compose up
+- **start in background** - docker-compose up -d
+- **stop** - docker-compose down
+
+### App URL
+
+- front-end - <http://localhost:3000>
+- back-end - <http://localhost:8080>
 
 ## Theory - What is **WebRTC**?
 
@@ -8,24 +19,24 @@ WebRTC is an open framework for the web that enables Real-Time Communications (R
 
 ![alt](./diagrams/webrtc-establish-peer-connection-diagram.png)
 
-#### What is a **STUN** server?
+### What is a **STUN** server?
 
 - STUN (Session Traversal Utilities for NAT) server allows clients to discover their public IP address and the type of NAT they are behind. This information is used to establish the media connection.
 - In 15-20% of cases STUN server will fail, and to establish a connection between the peers, we will need a TURN server.
 
-#### What is a **TURN** server?
+### What is a **TURN** server?
 
 - TURN (Traversal Using Relay NAT) server implements a protocol for relaying network traffic.
 - TURN servers will be used if the STUN server fails.
 - TURN servers will be used to assist in establishing connections between the peers.
 - TURN Servers are not public because of the costs they can generate because of the traffic going through them.
 
-#### What is **SDP**?
+### What is **SDP**?
 
 - The SDP (Session Description Protocol) is a format for describing multimedia communication sessions for session announcement and invitation.
 - It does not deliver the media data but is used for negotiation between peers of various audio and video codecs, source addresses, and audio and video timing information.
 
-#### What are **ICE** candidates?
+### What are **ICE** candidates?
 
 - ICE (Interactive Connectivity Establishment) is a standard method of NAT traversal used in WebRTC.
 - As well as exchanging information about the media (discussed above in Offer/Answer and SDP), peers must exchange information about the network connection. That is an ICE candidate and details the available methods the peer can communicate (directly or through a TURN server). Typically, each peer will propose its best candidates first, making their way down the line toward their worse candidates. Ideally, candidates are UDP (since it's faster, and media streams can recover from interruptions relatively quickly), but the ICE standard also allows TCP candidates.
