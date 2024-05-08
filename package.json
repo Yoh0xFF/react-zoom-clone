@@ -1,0 +1,49 @@
+{
+  "name": "zoom-clone",
+  "version": "0.0.1",
+  "private": true,
+  "repository": "git@github.com:Yoh0xFF/react-zoom-clone.git",
+  "license": "MIT",
+  "author": "Ioram Gordadze <Yoh0xFF@gmail.com>",
+  "type": "module",
+  "main": "index.js",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "postinstall": "run-s pre-commit:init pre-commit:init-script format:pkgjson",
+    "pre-commit:init": "husky init",
+    "pre-commit:init-script": "path-exists .husky && echo \"npm run pre-commit\" > .husky/pre-commit",
+    "pre-commit": "lint-staged",
+    "lint:all": "npm run lint --ws --if-present",
+    "format": "prettier --no-error-on-unmatched-pattern --write \"./*.{js,ts}\" package.json",
+    "format:all": "npm run format --ws --if-present && npm run format",
+    "format:pkgjson": "prettier --write package.json",
+    "build:all": "npm run build --workspace=apps/** --if-present",
+    "clean:all": "rimraf ./apps/**/dist ./packages/**/dist --glob",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,jsx,mjs,cjs,ts,tsx,json,css,scss,md,html}": [
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-private-methods": "^7.24.1",
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "@types/node": "^20.12.4",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "npm-run-all": "^4.1.5",
+    "path-exists-cli": "^2.0.0",
+    "prettier": "^3.2.5",
+    "prettier-plugin-packagejson": "^2.5.0",
+    "rimraf": "^5.0.5"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=10.0.0"
+  }
+}
